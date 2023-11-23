@@ -1,3 +1,5 @@
+{% from 'macros/nav.html' import nav_bar %}
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -13,6 +15,7 @@
     </head>
     
     <body>
+        {{ nav_bar("example@gmail.com", "dark") }}
         <main class="main">
             {% block main_content %} {% endblock %}
         </main>
