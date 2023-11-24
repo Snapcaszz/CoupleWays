@@ -1,7 +1,7 @@
 {% from 'macros/nav.html' import nav_bar, footer %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html class="{{ 'dark-mode' if session.get('theme') == 'dark' }}" lang="en">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -16,7 +16,7 @@
     </head>
     
     <body>
-        {{ nav_bar("matheus.scep@gmail.com", "dark") }}
+        {{ nav_bar("matheus.scep@gmail.com", session.get("theme")) }}
         <main class="main">
             {% block main_content %} {% endblock %}
         </main>

@@ -5,10 +5,25 @@
 
   --background-color: #fff;
   --accent-color: #8CBAE8;
+  --hover-color: #8CBAE8;
   --accent-color-2: #18538d;
   --tag-color: #e5e5e5;
 
   --border: 3px solid #000;
+}
+
+:root.dark-mode {
+  --text-dark: #fbf2f2;
+  --text-light: #000;
+  --text-muted: #595959;
+
+  --background-color: #1c2023;
+  --accent-color: #18538d;
+  --hover-color: #8CBAE8;
+  --accent-color-2: #8CBAE8;
+  --tag-colour: var(--accent-colour-2);
+
+  --border: 3px solid #fff;
 }
 
 .button {
@@ -126,7 +141,7 @@ body {
 }
 
 .app--name:hover {
-  color: var(--accent-color); /* Set the text color */
+  color: var(--hover-color); /* Set the text color */
 }
 
 .app--logo {
@@ -147,7 +162,7 @@ body {
 }
 
 .nav__link:hover {
-  color: var(--accent-color);
+  color: var(--hover-color);
 }
 
 .nav__link:not(:first-of-type) {
@@ -172,7 +187,7 @@ body {
 }
 
 .theme__icon:hover {
-  color: var(--accent-color); /* Set the text color */
+  color: var(--hover-color); /* Set the text color */
 }
 
 @media screen and (max-width: 37.5em) {
