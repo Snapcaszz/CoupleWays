@@ -5,7 +5,7 @@
 
   --background-color: #fff;
   --accent-color: #8CBAE8;
-  --accent-color-2: #513bb5;
+  --accent-color-2: #18538d;
   --tag-color: #e5e5e5;
 
   --border: 3px solid #000;
@@ -32,6 +32,18 @@ html {
 
 /* When the screen width hits 960px, we increase the global font size to 14px. This changes
     the scale of all of our relative units (the rems), keeping everything in proportion */
+@media screen and (max-width: 25em) {
+  html {
+    font-size: 8px;
+  }
+}
+
+@media screen and (max-width: 37.5em) {
+  html {
+    font-size: 11px;
+  }
+}
+    
 @media screen and (min-width: 60em) {
   html {
     font-size: 14px;
@@ -47,6 +59,8 @@ html {
 
 body {
   /* Sets the shared font characteristics, so that that they can be inherited globally */
+  display: flex;
+  flex-direction: column;
   font-family: "Public Sans", sans-serif;
   color: var(--text-dark);
   line-height: 1.45;
@@ -106,9 +120,9 @@ body {
 
 .app--name {
   position: absolute;
-  transform: translate(5rem, 2rem);
+  transform: translate(5rem, 1.7rem);
   color: inherit; /* Set the text color */
-  transition: color 0.3s ease-in-out; /* Add a smooth transition effect */
+  transition: color 0.2s ease-in-out; /* Add a smooth transition effect */
 }
 
 .app--name:hover {
@@ -129,7 +143,7 @@ body {
   margin-top: 1rem;
   text-decoration: none;
   color: inherit;
-  transition: color 0.3s ease-in-out;
+  transition: color 0.2s ease-in-out;
 }
 
 .nav__link:hover {
@@ -137,17 +151,18 @@ body {
 }
 
 .nav__link:not(:first-of-type) {
-  margin-left: 1rem;
+  margin-left: 1.8rem;
 }
 
 .nav__link--active {
   font-weight: bold;
   color: var(--accent-color);
-  transition: filter 0.3s ease-in-out;
+  transition: filter 0.2s ease-in-out;
 }
 
 .nav__link--active:hover {
   filter: brightness(1.2);
+  cursor: pointer;
 }
 
 .theme__icon {
@@ -158,4 +173,88 @@ body {
 
 .theme__icon:hover {
   color: var(--accent-color); /* Set the text color */
+}
+
+@media screen and (max-width: 37.5em) {
+  .nav--bar {
+    flex-direction: column;
+  }
+
+  .nav__link:not(:first-of-type) {
+    margin-left: 4.5rem;
+  }
+
+  .app--name {
+    transform: translate(13rem, 1.7rem);
+  }
+}
+
+@media screen and (max-width: 25em) {
+  .nav__link:not(:first-of-type) {
+    margin-left: 2.1rem;
+  }
+}
+
+@media screen and (max-width: 21px) {
+  .nav__link:not(:first-of-type) {
+    margin-left: 1rem;
+  }
+
+  .app--name {
+    transform: translate(8rem, 1.7rem);
+  }
+}
+
+.main {
+  flex: 1;
+}
+
+.footer {
+  background-color: var(--accent-color);
+  padding: 40px 0;
+  margin: 50px 0 0 0;
+  border-top: 2px solid var(--text-dark);
+  color: var(--text-dark);
+  font-size: 0.8rem;
+}
+
+.footer__content {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: row;
+}
+
+.footer .left {
+  flex-grow: 2;
+  display: flex;
+  flex-direction: column;
+}
+
+.footer .right {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
+}
+
+.footer__column {
+  display: flex;
+  flex-direction: column;
+  margin-left: 50px;
+}
+
+.footer__item {
+  margin-bottom: 5px;
+  font-weight: bold;
+  border: 0.5rem solid transparent;
+  border-radius: 1rem;
+  transition: all 0.2s ease-in-out;
+  text-decoration: none;
+  color: inherit;
+}
+
+.footer__item:hover {
+  color: var(--accent-color-2);
+  cursor: pointer;
 }

@@ -1,4 +1,4 @@
-{% from 'macros/nav.html' import nav_bar %}
+{% from 'macros/nav.html' import nav_bar, footer %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -10,14 +10,16 @@
         <link href="https://fonts.googleapis.com/css?family=Public+Sans:400,600&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/reset.css') }}" />
         <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
+        <link rel="icon" href="./static/img/logo.png" type="image/png">
 
         {% block head_content %} {% endblock %}
     </head>
     
     <body>
-        {{ nav_bar("example@gmail.com", "dark") }}
+        {{ nav_bar("matheus.scep@gmail.com", "dark") }}
         <main class="main">
             {% block main_content %} {% endblock %}
         </main>
+        {{ footer() }}
     </body>
 </html>
