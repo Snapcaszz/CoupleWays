@@ -11,7 +11,7 @@
                 <a class="nav__link {{ 'nav__link--active' if request.path == '#' }}" href="#">Log in</a>
                 <a class="nav__link {{ 'nav__link--active' if request.path == '#' }}" href="#">Register</a>               
             {% else %}
-                <a class="nav__link {{ 'nav__link--active' if request.path == '#' }}" href="#">My Journeys</a>
+                <a class="nav__link {{ 'nav__link--active' if request.path == url_for('pages.my_trips') }}" href="{{ url_for('pages.my_trips') }}">My Trips</a>
                 <a class="nav__link {{ 'nav__link--active' if request.path == '#' }}" href="#">Map Discovery</a>   
                 <a class="nav__link {{ 'nav__link--active' if request.path == '#' }}" href="#">AI Travel Guide</a>
                 <a class="nav__link" href="#">Log out</a>   

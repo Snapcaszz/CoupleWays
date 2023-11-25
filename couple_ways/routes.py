@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, url_for, request, session, redirect
+from couple_ways.forms import NewTripForm
 
 
 pages = Blueprint(
@@ -22,3 +23,19 @@ def toggle_theme():
         session["theme"] = "dark"
         
     return redirect(request.args.get("current_page"))
+
+@pages.route("/add_trip", methods=["GET", "POST"])
+def add_trip():
+    form= NewTripForm()
+    
+    if request.method == "POST":
+        pass
+    
+    return render_template("add_trip.html", title="Couple Ways - Add Trip", form=form)
+
+@pages.route("/my_trips")
+def my_trips():
+    return render_template(
+        "my_trips.html",
+        title="Couple Ways - Trips",
+    )

@@ -5,11 +5,13 @@
 
   --background-color: #fff;
   --accent-color: #8CBAE8;
+  --button-accent: #acd4fc;
   --hover-color: #8CBAE8;
   --accent-color-2: #18538d;
   --tag-color: #e5e5e5;
 
   --border: 3px solid #000;
+  --calendar-icon: invert(0);
 }
 
 :root.dark-mode {
@@ -19,9 +21,11 @@
 
   --background-color: #1c2023;
   --accent-color: #18538d;
+  --button-accent: #3070af;
   --hover-color: #8CBAE8;
   --accent-color-2: #8CBAE8;
   --tag-colour: var(--accent-colour-2);
+  --calendar-icon: invert(1);
 
   --border: 3px solid #fff;
 }
@@ -31,10 +35,6 @@
   --background-color-hover: #bdd1eb;
 }
 
-.form__field {
-  --background-color: #e8e5e5;
-}
-
 .form__field,
 .nav__link {
   --border: 3px solid #8CBAE8;
@@ -42,26 +42,26 @@
 
 html {
   /* Sets global font size on small devices */
-  font-size: 12px;
+  font-size: 16px;
 }
 
 /* When the screen width hits 960px, we increase the global font size to 14px. This changes
     the scale of all of our relative units (the rems), keeping everything in proportion */
 @media screen and (max-width: 25em) {
   html {
-    font-size: 8px;
+    font-size: 11px;
   }
 }
 
 @media screen and (max-width: 37.5em) {
   html {
-    font-size: 11px;
+    font-size: 14px;
   }
 }
     
 @media screen and (min-width: 60em) {
   html {
-    font-size: 14px;
+    font-size: 16px;
   }
 }
 
@@ -158,7 +158,7 @@ body {
   margin-top: 1rem;
   text-decoration: none;
   color: inherit;
-  transition: color 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
 }
 
 .nav__link:hover {
@@ -172,7 +172,7 @@ body {
 .nav__link--active {
   font-weight: bold;
   color: var(--accent-color);
-  transition: filter 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
 }
 
 .nav__link--active:hover {
@@ -190,7 +190,7 @@ body {
   color: var(--hover-color); /* Set the text color */
 }
 
-@media screen and (max-width: 37.5em) {
+@media screen and (max-width: 765px) {
   .nav--bar {
     flex-direction: column;
   }
@@ -226,7 +226,7 @@ body {
 
 .footer {
   background-color: var(--accent-color);
-  padding: 40px 0;
+  padding: 20px 0;
   margin: 50px 0 0 0;
   border-top: 2px solid var(--text-dark);
   color: var(--text-dark);
@@ -272,4 +272,134 @@ body {
 .footer__item:hover {
   color: var(--accent-color-2);
   cursor: pointer;
+}
+
+.form__block {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 3rem;
+  align-items: center;
+}
+
+.form__title {
+  font-size: 1.6rem;
+  margin: 1.6rem auto;
+}
+
+.form__container {
+  padding: 2.5rem 1.5rem 1.5rem 1.5rem;
+}
+
+/* The following media queries allow for more padding inside the form as the window
+   size increases */
+@media screen and (min-width: 24.75em) {
+  .form__container {
+    padding-left: 2rem;
+  }
+}
+
+@media screen and (min-width: 30em) {
+  .form__container {
+    padding-left: 2.5rem;
+  }
+}
+
+.form__container--dates {
+  display: flex;
+  align-items: center;
+}
+
+.form__container--dates--arrow {
+  margin-left: 1rem;
+  margin-right: 1rem;
+  font-weight: bold;
+  font-size: 1.6rem;
+}
+
+.form__group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
+}
+
+.form__label {
+  margin-bottom: 0.5rem;
+}
+
+.form__field {
+  outline: none;
+  border-radius: 1rem; /* Adjust the border-radius to control the roundness */
+  border: 1px solid var(--text-dark); /* Outline color matches background */
+  /* We have to be explicit about our text fields inheriting font properties */
+  font-size: inherit;
+  font-family: inherit;
+  background-color: var(--background-color);
+
+  padding: 0.5rem 0.5rem;
+}
+
+/* When the field is in focus, we change the border colour at the bottom to the accent colour */
+.form__field:focus {
+  border: 1px solid var(--accent-color); /* Outline color matches background */
+}
+
+.form__button--container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form__block {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 3rem;
+  align-items: center;
+}
+
+/* Styles specific to the form buttons */
+.button {
+  padding: 0.75rem 3rem;
+  background: var(--accent-color);
+  color: var(--text-dark);
+  border: 2px solid var(--accent-color); /* Outline color matches background */
+  border-radius: 2rem; /* Adjust the border-radius to control the roundness */
+  transition: all 0.2s ease-in-out;
+  cursor: pointer; /* Add pointer cursor for better UX */
+}
+
+.button:hover {
+  background: var(--button-accent);
+}
+
+.form__datepicker {
+  color: var(--text-muted);
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: var(--calendar-icon); /* Invert the colors to change the color of the icon */
+}
+
+.trips__link--container {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 3rem;
+  max-width: fit-content;
+}
+
+.trips__link--button {
+  padding: 10px 20px; /* Adjust the padding to your preference */
+  text-align: center;
+  text-decoration: none;
+  background-color: var(--accent-color); /* Set the background color */
+  color: inherit; /* Set the text color */
+  border: 2px solid var(--accent-color); /* Set the border color */
+  border-radius: 2rem; /* Add some border-radius for rounded corners */
+  transition: background-color 0.3s ease, color 0.3s ease; /* Add a smooth transition effect */
+}
+
+.trips__link--button:hover {
+  background: var(--button-accent);
 }
