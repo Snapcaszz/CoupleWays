@@ -7,6 +7,8 @@
     <h1 class="form__title">Your Journey starts here!</h1>
     <form name="add_movie" method="post" novalidate class="form">
         <div class="form__container">
+            {{ form.hidden_tag() }}
+            {{ form.csrf_token }}
             {{ form.csrt_token }}
             {{ render_text_field(form.destination) }}
             <div class="form__container--dates">

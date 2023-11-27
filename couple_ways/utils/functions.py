@@ -8,6 +8,9 @@ def months_between_dates(date1: datetime, date2: datetime) -> float:
     return months
 
 def money_string_to_float(money_string):
+    if money_string == '': 
+        return 0
+    
     # Remove currency symbols, spaces, and everything that is not a digit, dot, or comma
     cleaned_money = ''.join(char for char in money_string if char.isdigit() or char in {'.', ','})
 
