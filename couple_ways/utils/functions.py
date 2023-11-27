@@ -7,17 +7,13 @@ def months_between_dates(date1: datetime, date2: datetime) -> float:
     months = delta.years * 12 + delta.months + delta.days / 30.0
     return months
 
-def money_string_to_float(money_string):
-    if money_string == '': 
-        return 0
-    
-    # Remove currency symbols, spaces, and everything that is not a digit, dot, or comma
-    cleaned_money = ''.join(char for char in money_string if char.isdigit() or char in {'.', ','})
+def money_string_to_float(value):
+    try:
+        # Remove currency symbols and commas
+        value = value.replace('R$', '').replace('$', '').replace(',', '')
 
-    # Replace comma with dot as the decimal separator
-    cleaned_money = cleaned_money.replace(',', '.')
-
-    # Convert to float
-    float_value = float(cleaned_money)
-
-    return float_value
+        # Convert the string to a float
+        result = float(value)
+        return result
+    except ValueError:
+        return None

@@ -9,6 +9,7 @@
   --hover-color: #8CBAE8;
   --accent-color-2: #18538d;
   --tag-color: #e5e5e5;
+  --fill-color: #ffd02a;
 
   --border: 3px solid #000;
   --calendar-icon: invert(0);
@@ -26,6 +27,7 @@
   --accent-color-2: #8CBAE8;
   --tag-colour: var(--accent-colour-2);
   --calendar-icon: invert(1);
+  --fill-color: #ffc800;
 
   --border: 3px solid #fff;
 }
@@ -345,6 +347,32 @@ body {
   border: 1px solid var(--accent-color); /* Outline color matches background */
 }
 
+.form__error {
+  margin-top: 0.5rem;
+}
+
+.form__error,
+.form__flash {
+  display: block;
+  padding: 0.5rem;
+  color: var(--text-dark);
+}
+
+.form__error,
+.form__flash--danger {
+  background: var(--accent-color);
+  border-radius: 2rem;
+  max-width: fit-content;
+}
+
+.form__flash {
+  margin: 0.5rem;
+}
+
+.form__flash--success {
+  background: var(--accent-color-2);
+}
+
 .form__button--container {
   display: flex;
   justify-content: center;
@@ -403,4 +431,138 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .trips__link--button:hover {
   background: var(--button-accent);
+}
+
+.trips {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-column-gap: 1.25rem;
+  justify-content: center;
+  justify-items: center;
+  max-width: 21.875rem;
+  margin: 0 auto;
+}
+
+@media (min-width: 48.75em) {
+  .trips {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 45rem;
+  }
+}
+
+@media (min-width: 70em) {
+  .trips {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 68rem;
+  }
+}
+
+.trip--card {
+  padding: 0.75rem 0;
+}
+
+.trip--card__image {
+  max-width: 100%;
+  margin-bottom: 1rem;
+}
+
+.trip--card__meta {
+  padding: 0 1.25rem;
+}
+
+.trip--card__name {
+  margin: 0;
+  font-size: 1.5rem;
+  line-height: 2.25rem;
+  color: var(--text-dark);
+}
+
+.trip__link {
+  text-decoration: none;
+}
+
+.trip__rating {
+  display: flex;
+  margin-left: 1rem;
+}
+
+.rating__link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: unset;
+}
+
+.star {
+  width: 1.5em;
+  height: 1.5em;
+  fill: none;
+}
+
+.rating__link:not(:first-of-type) {
+  margin-left: 2px;
+}
+
+.trip--card__datecont {
+  display: flex;
+}
+
+.trip__link--container {
+  text-decoration: none;
+  transition: transform 0.2s ease-in-out;
+}
+
+.trip__link--namecontainer {
+  text-decoration: none;
+}
+
+.trip__link--container:hover {
+  text-decoration: none;
+  transform: translateY(-0.2rem);
+  color: var(--accent-color);
+}
+
+.rating__link {
+  text-decoration: none;
+  transition: transform 0.2s ease-in-out;
+}
+
+.rating__link:hover {
+  text-decoration: none;
+  transform: translateY(-0.2rem);
+}
+
+.trip--card__namecont {
+  display: flex;
+}
+
+.trip--card__imgcont {
+  display: flex;
+}
+
+.star--filled {
+  fill: var(--accent-color);
+}
+
+.trips__empty {
+  margin: 0 auto;
+  max-width: fit-content;
+  font-size: 1.4rem;
+  margin-top: 5rem;
+}
+
+.trip--card__date:not(:first-of-type) {
+  margin-left: 1rem;
+}
+
+.trip--card__arrow {
+  margin-left: 1rem;
+}
+
+.trip--card__name {
+  transition: all 0.2s ease-in-out;
+}
+
+.trip--card__name:hover {
+  color: var(--accent-color);
 }

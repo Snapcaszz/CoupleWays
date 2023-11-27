@@ -1,4 +1,4 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, asdict
 from datetime import datetime
 from couple_ways.utils.functions import months_between_dates, money_string_to_float
 
@@ -10,11 +10,10 @@ class Trip:
     destination: str
     start_date: datetime
     end_date: datetime
-    current_budget: str
+    current_budget: float
     travelers: list[str]
     # OPTIONAL DATA
-    rate: int = 0
-    current_budget_value: float = 0
+    rating: int = 0
     trip_description: str = None
     videos_of_the_trip: list[str] = field(default_factory=list)
     date_to_start_saving: datetime = None
@@ -27,15 +26,12 @@ class Trip:
     amount_to_save: float = 0
     amount_to_save_per_people: float = 0
 
-    def __post_init__(self):
-        self.current_budget_value = money_string_to_float(self.current_budget)
-
     def _calculate_fields(self):
         
         if self.cost_of_stay and self.transportation_cost and self.amount_to_spend:
             self.total_expenses = self.cost_of_stay + self.transportation_cost + self.amount_to_spend
             if self.date_to_start_saving:
-                self.amount_to_save = (self.total_expenses - self.current_budget_value) / months_between_dates(
+                self.amount_to_save = (self.total_expenses - self.current_budget) / months_between_dates(
                     self.date_to_start_saving, self.start_date
                 )
             else:
@@ -44,3 +40,9 @@ class Trip:
 
     def recalculate_fields(self):
         self._calculate_fields()
+        
+    def to_dict(self):
+        trip_dict = asdict(self)
+        trip_dict["start_date"] = datetime.combine(self.start_date, datetime.min.time())
+        trip_dict["end_date"] = datetime.combine(self.end_date, datetime.min.time())
+        return trip_dict

@@ -8,13 +8,12 @@
     <form name="add_movie" method="post" novalidate class="form">
         <div class="form__container">
             {{ form.hidden_tag() }}
-            {{ form.csrf_token }}
             {{ form.csrt_token }}
             {{ render_text_field(form.destination) }}
             <div class="form__container--dates">
-                {{ render_date_field(form.start_date, form) }}
+                {{ render_date_field(form.start_date) }} {{form.hidden_tag()}}
                 <span class="form__container--dates--arrow">&rarr;</span>
-                {{ render_date_field(form.end_date, form) }}
+                {{ render_date_field(form.end_date) }} {{form.hidden_tag()}}
             </div>
             {{ render_text_field(form.current_budget) }}
             {{ render_area_field(form.travelers) }}

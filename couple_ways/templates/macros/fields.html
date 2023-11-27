@@ -4,7 +4,7 @@
     {{ field(class_="form__field")}}
 
     {%- for error in field.errors %}
-        <span class="form__error">{{ error }}</span>
+        <span class="form__error">*{{ error }}</span>
     {% endfor %}
 </div>
 {% endmacro %}
@@ -15,19 +15,18 @@
     {{ field(rows=4, class_="form__field", style="resize: none") }}
 
     {%- for error in field.errors %}
-        <span class="form__error">{{ error }}</span>
+        <span class="form__error">*{{ error }}</span>
     {% endfor %}
 </div>
 {% endmacro %}
 
-{% macro render_date_field(field, form) %}
+{% macro render_date_field(field) %}
 <div class="form__group">
     {{ field.label(class_="form__label") }}
-    {{ field(class="form__field form__datepicker") }}
-    {{ form.hidden_tag() }}
+    {{ field(class_="form__field form__datepicker") }}
 
     {%- for error in field.errors %}
-        <span class="form__error">{{ error }}</span>
+        <span class="form__error">*{{ error }}</span>
     {% endfor %}
 </div>
 {% endmacro %}

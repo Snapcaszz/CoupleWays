@@ -1,7 +1,37 @@
+{% from "macros/svgs.html" import star, pencil   %}
 {% extends 'layout.html' %}
 
 {% block main_content %}
-    <div class="trips__link--container">
-        <a class="trips__link--button" href="{{ url_for('pages.add_trip') }}">Add Trip</a>
-    </div>
+{% if not trips_data %}
+    <h2 class="trips__empty">You haven't added any trips yet!</h2>
+{% endif %}
+<section class="trips">
+    {% for trip in trips_data %}
+            <article class="trip--card">
+                <div class="trip--card__imgcont">
+                    <a class="trip__link--container" href="#"><img class="trips--card__image" src="./static/img/Salvador.jpg" alt="Trip image"></a>
+                </div>
+                    <header class="trip--card__meta">
+                        <div class="trip--card__namecont">
+                            <a class="trip__link--namecontainer" href="#"><h2 class="trip--card__name">{{ trip.destination }}</h2></a>
+                            <div class="trip__rating">
+                                {% for i in range(5) %}
+                                    <a class="rating__link" href="{{ url_for('pages.rate_trip', _id=trip._id, rating=i+1) }}">
+                                        {{ star("star " + ("star--filled" if trip.rating > i else "")) }}
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="trip--card__datecont">
+                            <p class="trip--card__date">{{ trip.start_date }}</p>
+                            <span class="trip--card__arrow">&rarr;</span>
+                            <p class="trip--card__date">{{ trip.end_date }}</p>
+                        </div>
+                    </header>
+            </article>
+    {% endfor %}
+</section>
+<div class="trips__link--container">
+    <a class="trips__link--button" href="{{ url_for('pages.add_trip') }}">Add Trip</a>
+</div>
 {% endblock %}

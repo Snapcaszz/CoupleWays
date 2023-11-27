@@ -32,7 +32,7 @@ def toggle_theme():
 def add_trip():
     form= NewTripForm()
     
-    if request.method == "POST":
+    if form.validate_on_submit():
         trip = Trip(
             _id=uuid.uuid4().hex,
             destination=form.destination.data,
@@ -42,15 +42,31 @@ def add_trip():
             travelers=form.travelers.data
         )
         
-        current_app.db.trips.insert_one(asdict(trip))
+        current_app.db.trips.insert_one(trip.to_dict())
         return redirect(url_for(".my_trips"))
     
-    print(form.errors)
     return render_template("add_trip.html", title="Couple Ways - Add Trip", form=form)
 
 @pages.route("/my_trips")
 def my_trips():
+    trip_data = current_app.db.trips.find({})
+    trips = [Trip(**trip) for trip in trip_data]
+    for trip in trips: 
+        trip.start_date = trip.start_date.date().strftime('%d %b %Y')
+        trip.end_date = trip.end_date.date().strftime('%d %b %Y')
+        
     return render_template(
         "my_trips.html",
-        title="Couple Ways - Trips",
+        title="Couple Ways - Trips", trips_data=trips
     )
+    
+@pages.get("/trip/<string:_id>/rate")
+def rate_trip(_id):
+    rating = int(request.args.get("rating"))
+    try:
+        result = current_app.db.trips.update_one({"_id": _id}, {"$set": {"rating": rating}})
+        print(f"Matched {result.matched_count} document(s) and modified {result.modified_count} document(s).")
+    except Exception as e:
+        print(f"Error: {e}")
+
+    return redirect(url_for(".my_trips"))
