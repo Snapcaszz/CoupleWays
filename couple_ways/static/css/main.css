@@ -333,6 +333,7 @@ body {
   border: 1px solid var(--text-dark); /* Outline color matches background */
   /* We have to be explicit about our text fields inheriting font properties */
   font-size: inherit;
+  color: inherit;
   font-family: inherit;
   background-color: var(--background-color);
 
@@ -374,7 +375,7 @@ body {
 }
 
 .form__datepicker {
-  color: var(--text-muted);
+  color: var(--text-dark);
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator {
