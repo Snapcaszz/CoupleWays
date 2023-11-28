@@ -1,0 +1,98 @@
+.container {
+    max-width: 50rem;
+    margin: 0 auto;
+}
+
+.trip__header {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2.5rem;
+}
+
+.header__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.trip__destination {
+    display: flex;
+    align-items: center;
+}
+
+.trip__rating {
+    margin-left: 1rem;
+}
+
+.trip__edit {
+    display: flex;
+    text-decoration: none;
+    align-items: center;
+    justify-content: right;
+    margin-left: 1rem;
+    color: inherit;
+}
+
+.trip__edit:hover {
+    text-decoration: underline;
+}
+
+.pencil {
+    width: 1em;
+    height: 1em;
+    margin-left: 3px;
+}
+
+.trip__video {
+    width: 100%;
+    aspect-ratio: 16/9;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.25),
+        0 15px 35px 0 rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+}
+
+.trip__itinerary {
+    margin-bottom: 2.5rem;
+}
+
+.trip__meta {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.list__item {
+    margin-top: 1rem;
+}
+
+.trip__banner--img {
+    width: 100%;
+    height: 20rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 5px 15px 0 var(--banner-shadow),
+    0 15px 35px 0 var(--banner-shadow);
+}
+
+.trip__travelers--label {
+    display: flex;
+    justify-content: left;
+    font-size: 1.3rem;
+}
+
+.trip__budget--label {
+    display: flex;
+    justify-content: center;
+    font-size: 1.3rem;
+}
+
+.trip__budget--value {
+    display: flex;
+    justify-content: center;
+    font-size: 1.2rem;
+    padding: 0.8rem;
+}
+
+.trip__dates {
+    display: flex;
+    margin-left: 0.3rem;
+}

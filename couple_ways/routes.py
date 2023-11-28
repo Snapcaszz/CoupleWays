@@ -71,9 +71,22 @@ def rate_trip(_id):
 
     return redirect(url_for(".my_trips"))
 
+@pages.get("/trip/<string:_id>/rate/this")
+def rate_this_trip(_id):
+    rating = int(request.args.get("rating"))
+    try:
+        result = current_app.db.trips.update_one({"_id": _id}, {"$set": {"rating": rating}})
+        print(f"Matched {result.matched_count} document(s) and modified {result.modified_count} document(s).")
+    except Exception as e:
+        print(f"Error: {e}")
+
+    return redirect(url_for(".trip", _id=_id))
+
 @pages.route("/trip/<string:_id>")
 def trip(_id: str):
     trip = Trip(**current_app.db.trips.find_one({"_id": _id}))
     trip.recalculate_fields
+    trip.start_date = trip.start_date.date().strftime('%d %b %Y')
+    trip.end_date = trip.end_date.date().strftime('%d %b %Y')
     
     return render_template("trip.html", trip=trip)

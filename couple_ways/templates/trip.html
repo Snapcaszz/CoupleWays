@@ -8,6 +8,67 @@
 
 {% block main_content %}
 <div class="container">
-
+    <header class="trip__header">
+        <div class="trip__banner">
+            <img class="trip__banner--img" src="{{ url_for('static', filename='img/Salvador.jpg') }}" alt="Trip banner image">
+        </div>
+        <div class="header__row">
+            <div class="trip__destination">
+                <h1>{{ trip.destination }}</h1>
+                <div class="trip__rating">
+                    {% for i in range(5) %}
+                        <a class="rating__link" href="{{ url_for('pages.rate_this_trip', _id=trip._id, rating=i+1) }}">
+                            {{ star("star " + ("star--filled" if trip.rating > i else "")) }}
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="trip__info--dates--edit">
+                <a class="trip__edit" href="#">Edit {{ pencil("pencil") }}</a>
+            </div>
+        </div>
+        <div class="header__row">
+            <div class="trip__dates">
+                <p class="trip--card__date trip__dates--spec">{{ trip.start_date }}</p>
+                <span class="trip--card__arrow trip__dates--arrspec">&rarr;</span>
+                <p class="trip--card__date trip__dates--spec">{{ trip.end_date }}</p>
+            </div>
+        </div>
+    </header>
+    {% if trip.video_of_the_trip %}
+    <iframe
+        class="trip__video"
+        src="{{ trip.video_link }}"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+    </iframe>
+    {% endif %}
+    {% if trip.itinerary %}
+        <p class="trip__itinerary">{{ trip.itinerary }}</p>
+    {% else %}
+        <p class="trip__itinerary">No itinerary for this trip yet. <a class="link" href="#">Add one?</a></p>
+    {% endif %}
+    <div class="trip__meta">
+        {% if trip.travelers %}
+            <div class="trip__travelers">
+                <h2 class="trip__travelers--label">Travelers</h2>
+                <ul class="list">
+                {% for traveler in trip.travelers %}
+                    <li class="list__item">{{ traveler }}</li>
+                {% endfor %}
+                <ul>
+            </div>
+        {% endif %}
+        <div class="trip__budget">
+            <h2 class="trip__budget--label">Current budget</h2>
+            <span class="trip__budget--value">${{ trip.current_budget }}</span>
+        </div>
+    </div>
+    <div class="trips__link--container">
+        <a class="trips__link--button" href="#">Simulate budget</a>
+    </div>
+    {% block simulate_content %}    {% endblock %}
 </div>
 {% endblock %}

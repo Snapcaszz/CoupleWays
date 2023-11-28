@@ -1,6 +1,6 @@
-from dataclasses import dataclass, field, asdict
+from dataclasses import dataclass, asdict
 from datetime import datetime
-from couple_ways.utils.functions import months_between_dates, money_string_to_float
+from couple_ways.utils.functions import months_between_dates
 
 
 @dataclass
@@ -14,10 +14,11 @@ class Trip:
     travelers: list[str]
     # OPTIONAL DATA
     rating: int = 0
-    trip_description: str = None
-    videos_of_the_trip: list[str] = field(default_factory=list)
+    trip_itinerary: str = None
+    video_of_the_trip: str = None
     date_to_start_saving: datetime = None
-    accommodation: str = None
+    hotel: str = None
+    hotel_description: str = None
     hotel_link: str = None
     cost_of_stay: float = 0
     transportation_cost: float = 0
