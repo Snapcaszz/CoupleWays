@@ -20,7 +20,7 @@
   --text-dark: #fbf2f2;
   --text-light: #000;
   --text-muted: #595959;
-  --banner-shadow: rgba(255, 255, 255, 0.25);
+  --banner-shadow: rgba(255, 255, 255, 0.105);
 
   --background-color: #1c2023;
   --accent-color: #18538d;
@@ -512,6 +512,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .trip__link--container {
   text-decoration: none;
   transition: transform 0.2s ease-in-out;
+  margin-bottom: 0.5rem;
 }
 
 .trip__link--namecontainer {
