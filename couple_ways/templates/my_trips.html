@@ -9,11 +9,11 @@
     {% for trip in trips_data %}
             <article class="trip--card">
                 <div class="trip--card__imgcont">
-                    <a class="trip__link--container" href="#"><img class="trips--card__image" src="./static/img/Salvador.jpg" alt="Trip image"></a>
+                    <a class="trip__link--container" href="{{ url_for('pages.trip', _id=trip._id) }}"><img class="trips--card__image" src="./static/img/Salvador.jpg" alt="Trip image"></a>
                 </div>
                     <header class="trip--card__meta">
                         <div class="trip--card__namecont">
-                            <a class="trip__link--namecontainer" href="#"><h2 class="trip--card__name">{{ trip.destination }}</h2></a>
+                            <a class="trip__link--namecontainer" href="{{ url_for('pages.trip', _id=trip._id) }}"><h2 class="trip--card__name">{{ trip.destination }}</h2></a>
                             <div class="trip__rating">
                                 {% for i in range(5) %}
                                     <a class="rating__link" href="{{ url_for('pages.rate_trip', _id=trip._id, rating=i+1) }}">

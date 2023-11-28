@@ -70,3 +70,10 @@ def rate_trip(_id):
         print(f"Error: {e}")
 
     return redirect(url_for(".my_trips"))
+
+@pages.route("/trip/<string:_id>")
+def trip(_id: str):
+    trip = Trip(**current_app.db.trips.find_one({"_id": _id}))
+    trip.recalculate_fields
+    
+    return render_template("trip.html", trip=trip)
