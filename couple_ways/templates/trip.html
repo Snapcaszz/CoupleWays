@@ -1,4 +1,4 @@
-{% from "macros/svgs.html" import star, pencil %}
+{% from "macros/svgs.html" import star, pencil, edit_pic, trash_can, trash_can_dark, edit_pic_dark %}
 
 {% extends 'layout.html' %}
 
@@ -24,7 +24,13 @@
                 </div>
             </div>
             <div class="trip__info--dates--edit">
-                <a class="trip__edit" href="{{ url_for('pages.edit_trip', _id=trip._id) }}">Edit {{ pencil("pencil") }}</a>
+                <a class="trip__edit" href="{{ url_for('pages.edit_trip', _id=trip._id) }}">Edit trip {{ pencil("pencil") }}</a>
+            </div>
+            <div class="trip__info--dates--edit">
+                <a class="trip__edit" href="#">Edit image {{ edit_pic("pencil") if session.get("theme")=="light" else edit_pic_dark("pencil") }}</a>
+            </div>
+            <div class="trip__info--dates--edit">
+                <a class="trip__edit trip__edit--delete" href="#">Delete Trip{{ trash_can("pencil") if session.get("theme")=="light" else trash_can_dark("pencil") }}</a>
             </div>
         </div>
         <div class="header__row">

@@ -31,17 +31,24 @@
     justify-content: right;
     margin-left: 1rem;
     color: inherit;
+    transition: all 0.2s ease-in-out;
 }
 
 .trip__edit:hover {
     text-decoration: underline;
 }
 
+.trip__edit--delete:hover {
+    text-decoration: underline;
+    color: var(--delete-hover);
+}
+
 .pencil {
-    width: 1em;
-    height: 1em;
+    width: 0.8rem;
+    height: 0.8rem;
     margin-left: 3px;
 }
+
 
 .trip__video {
     width: 100%;
