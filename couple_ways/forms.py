@@ -1,3 +1,5 @@
+import datetime
+
 from flask_wtf import FlaskForm
 from wtforms import FloatField, StringField, SubmitField, TextAreaField, DateField
 from wtforms.validators import InputRequired, NumberRange, DataRequired, ValidationError
@@ -46,6 +48,14 @@ class NewTripForm(FlaskForm):
         if form.start_date.data and field.data:
             if form.start_date.data >= field.data:
                 raise ValidationError("End date must be higher than the start date.")
+    
+    def validate_start_date(form, field):
+        if field.data < datetime.date.today():
+            raise ValidationError("The date cannot be in the past!")
+
+    def validate_end_date(form, field):
+        if field.data < datetime.date.today():
+            raise ValidationError("The date cannot be in the past!")
 
 class EditTripForm(NewTripForm):
     destination = StringField("Trip Destination:", validators=[InputRequired()])
@@ -69,3 +79,36 @@ class EditTripForm(NewTripForm):
             video_embed= youtube_url_to_embed(field.data)
             if not video_embed: 
                 raise ValidationError("Input the right link format!")
+
+class HotelSimulationForm(FlaskForm):
+    hotel = StringField(
+        "Which hotel will you stay in?",
+        validators=[InputRequired(message='Please enter a hotel name')]
+        )
+    hotel_description = StringListField("What are the advantages of this hotel?", validators=[InputRequired()])
+    hotel_link = StringField("Hotel Website:", validators=[InputRequired()])
+    cost_of_stay = FloatField(
+        "What's the hotel's daily fee?",
+        render_kw={"placeholder": "Enter a positive number!"},
+        validators=[
+            InputRequired(message='Please enter valid budget'),
+            NumberRange(min=0, max=None, message='Please enter a positive number!'),
+        ],
+    )
+    transportation_cost = FloatField(
+        "How much is a plane ticket for a round trip?",
+        render_kw={"placeholder": "Enter a positive number!"},
+        validators=[
+            InputRequired(message='Please enter valid budget'),
+            NumberRange(min=0, max=None, message='Please enter a positive number!'),
+        ],
+    )
+    amount_to_spend = FloatField(
+        "How much you plan to spend on entertainment, food and gifts?",
+        render_kw={"placeholder": "Enter a positive number!"},
+        validators=[
+            InputRequired(message='Please enter valid budget'),
+            NumberRange(min=0, max=None, message='Please enter a positive number!'),
+        ],
+    )
+    submit = SubmitField("Simulate!")

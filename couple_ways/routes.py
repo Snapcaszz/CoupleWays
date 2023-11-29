@@ -1,9 +1,9 @@
 import uuid
-from datetime import datetime, time
+from datetime import datetime, date, time
 
 from flask import Blueprint, render_template, url_for, request, session, redirect, current_app
 from couple_ways.models import Trip
-from couple_ways.forms import NewTripForm, EditTripForm
+from couple_ways.forms import NewTripForm, EditTripForm, HotelSimulationForm
 from dataclasses import asdict
 
 
@@ -112,3 +112,24 @@ def edit_trip(_id):
         return redirect(url_for(".trip", _id=trip._id))
     
     return render_template("edit_trip.html", title="Couple Ways - Edit Trip", form=form)
+
+@pages.route("/simulate_trip/<string:_id>", methods=["GET", "POST"])
+def simulate_trip(_id):
+    trip = Trip(**current_app.db.trips.find_one({"_id": _id}))
+    form= HotelSimulationForm()
+    
+    if form.validate_on_submit():
+        trip.hotel=form.hotel.data
+        trip.hotel_description=form.hotel_description.data
+        trip.hotel_link=form.hotel_link.data
+        trip.cost_of_stay=form.cost_of_stay.data
+        trip.transportation_cost=form.transportation_cost.data
+        trip.amount_to_spend=form.amount_to_spend.data
+        trip.date_to_start_saving=datetime.combine(date.today(), time(0, 0, 0))
+        
+        trip.calculate_fields()
+        
+        current_app.db.trips.update_one({"_id": trip._id}, {"$set": asdict(trip)})
+        return redirect(url_for(".trip", _id=trip._id))
+    
+    return render_template("simulate_trip.html", title="Couple Ways - Hotel Simulation", form=form, trip=trip)

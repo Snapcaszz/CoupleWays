@@ -75,7 +75,7 @@
         </div>
     </div>
     <div class="trips__link--container">
-        <a class="trips__link--button" href="#">Simulate budget</a>
+        <a class="trips__link--button" href="{{ url_for('pages.simulate_trip', _id=trip._id) }}">Simulate budget</a>
     </div>
     {% block simulate_content %}    {% endblock %}
 </div>

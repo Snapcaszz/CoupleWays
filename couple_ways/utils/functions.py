@@ -7,6 +7,10 @@ def months_between_dates(date1: datetime, date2: datetime) -> float:
     months = delta.years * 12 + delta.months + delta.days / 30.0
     return months
 
+def days_between_dates(date1: datetime, date2: datetime) -> float:
+    delta = date2 - date1 
+    return delta.days+1
+
 def youtube_url_to_embed(url):
     try:
         if url: 
@@ -15,3 +19,10 @@ def youtube_url_to_embed(url):
             return embed
     except:
         return None
+    
+    
+date1 = datetime(2022, 1, 1)
+date2 = datetime(2022, 1, 2)
+
+result = months_between_dates(date1, date2)
+print(result)
