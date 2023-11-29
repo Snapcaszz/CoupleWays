@@ -1,8 +1,9 @@
 import uuid
+from datetime import datetime, time
 
 from flask import Blueprint, render_template, url_for, request, session, redirect, current_app
 from couple_ways.models import Trip
-from couple_ways.forms import NewTripForm
+from couple_ways.forms import NewTripForm, EditTripForm
 from dataclasses import asdict
 
 
@@ -36,13 +37,13 @@ def add_trip():
         trip = Trip(
             _id=uuid.uuid4().hex,
             destination=form.destination.data,
-            start_date=form.start_date.data,
-            end_date=form.end_date.data,
+            start_date=datetime.combine(form.start_date.data, time(0, 0, 0)),
+            end_date=datetime.combine(form.end_date.data, time(0, 0, 0)),
             current_budget=form.current_budget.data,
             travelers=form.travelers.data
         )
         
-        current_app.db.trips.insert_one(trip.to_dict())
+        current_app.db.trips.insert_one(asdict(trip))
         return redirect(url_for(".my_trips"))
     
     return render_template("add_trip.html", title="Couple Ways - Add Trip", form=form)
@@ -85,8 +86,29 @@ def rate_this_trip(_id):
 @pages.route("/trip/<string:_id>")
 def trip(_id: str):
     trip = Trip(**current_app.db.trips.find_one({"_id": _id}))
-    trip.recalculate_fields
+    trip.calculate_fields
     trip.start_date = trip.start_date.date().strftime('%d %b %Y')
     trip.end_date = trip.end_date.date().strftime('%d %b %Y')
     
-    return render_template("trip.html", trip=trip)
+    return render_template("trip.html", trip=trip, title=f"Couple Ways - {trip.destination}")
+
+@pages.route("/edit_trip/<string:_id>", methods=["GET", "POST"])
+def edit_trip(_id):
+    trip = Trip(**current_app.db.trips.find_one({"_id": _id}))
+    form= EditTripForm(obj=trip)
+    
+    if form.validate_on_submit():
+        trip.destination=form.destination.data
+        trip.start_date=datetime.combine(form.start_date.data, time(0, 0, 0))
+        trip.end_date=datetime.combine(form.end_date.data, time(0, 0, 0))
+        trip.current_budget=form.current_budget.data
+        trip.travelers=form.travelers.data
+        trip.trip_itinerary=form.trip_itinerary.data
+        trip.video_of_the_trip=form.video_of_the_trip.data
+        
+        trip.get_embed()
+        
+        current_app.db.trips.update_one({"_id": trip._id}, {"$set": asdict(trip)})
+        return redirect(url_for(".trip", _id=trip._id))
+    
+    return render_template("edit_trip.html", title="Couple Ways - Edit Trip", form=form)

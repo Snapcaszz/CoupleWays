@@ -24,7 +24,7 @@
                 </div>
             </div>
             <div class="trip__info--dates--edit">
-                <a class="trip__edit" href="#">Edit {{ pencil("pencil") }}</a>
+                <a class="trip__edit" href="{{ url_for('pages.edit_trip', _id=trip._id) }}">Edit {{ pencil("pencil") }}</a>
             </div>
         </div>
         <div class="header__row">
@@ -35,20 +35,22 @@
             </div>
         </div>
     </header>
-    {% if trip.video_of_the_trip %}
+    {% if trip.trip_itinerary %}
+        {% for line in trip.trip_itinerary %}
+            <p class="itinerary_line">{{ line }}</p>
+        {% endfor %}
+    {% else %}
+        <p class="trip__itinerary">No itinerary for this trip yet. <a class="link" href="{{ url_for('pages.edit_trip', _id=trip._id) }}">Add one?</a></p>
+    {% endif %}
+    {% if trip.embed_video %}
     <iframe
         class="trip__video"
-        src="{{ trip.video_link }}"
+        src="{{ trip.embed_video }}"
         title="YouTube video player"
         frameborder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen>
     </iframe>
-    {% endif %}
-    {% if trip.itinerary %}
-        <p class="trip__itinerary">{{ trip.itinerary }}</p>
-    {% else %}
-        <p class="trip__itinerary">No itinerary for this trip yet. <a class="link" href="#">Add one?</a></p>
     {% endif %}
     <div class="trip__meta">
         {% if trip.travelers %}

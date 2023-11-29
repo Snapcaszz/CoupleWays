@@ -50,6 +50,7 @@
     box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.25),
         0 15px 35px 0 rgba(0, 0, 0, 0.25);
     border-radius: 4px;
+    margin-top: 2.5rem;
 }
 
 .trip__itinerary {
@@ -95,4 +96,8 @@
 .trip__dates {
     display: flex;
     margin-left: 0.3rem;
+}
+
+.itinerary_line {
+    padding: 0.5rem;
 }
