@@ -1,9 +1,10 @@
 import datetime
 
 from flask_wtf import FlaskForm
-from wtforms import FloatField, StringField, SubmitField, TextAreaField, DateField
-from wtforms.validators import InputRequired, NumberRange, DataRequired, ValidationError
+from wtforms import FloatField, StringField, SubmitField, TextAreaField, DateField, FileField
+from wtforms.validators import InputRequired, NumberRange, DataRequired, ValidationError, FileAllowed, FileRequired
 from couple_ways.utils.functions import youtube_url_to_embed
+from couple_ways import photos
 
 
 class StringListField(TextAreaField):
@@ -115,3 +116,12 @@ class HotelSimulationForm(FlaskForm):
 
 class TripDeletionForm(FlaskForm):
     submit = SubmitField("Yes")
+    
+class ImageUpload(FlaskForm):
+    photo = FileField("Select an image",
+        validators=[
+            FileAllowed(photos, "Only images are allowed!"),
+            FileRequired("File field should not be empty")
+        ]
+    )
+    submit = SubmitField("Upload")
