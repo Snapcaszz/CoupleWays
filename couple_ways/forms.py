@@ -112,3 +112,6 @@ class HotelSimulationForm(FlaskForm):
         ],
     )
     submit = SubmitField("Simulate!")
+
+class TripDeletionForm(FlaskForm):
+    submit = SubmitField("Yes")

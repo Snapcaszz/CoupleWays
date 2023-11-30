@@ -34,4 +34,13 @@
 <div class="trips__link--container">
     <a class="trips__link--button" href="{{ url_for('pages.add_trip') }}">Add Trip</a>
 </div>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+    <ul class="flashes">
+    {% for message in messages %}
+        <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+{% endif %}
+{% endwith %}
 {% endblock %}

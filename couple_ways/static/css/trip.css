@@ -54,8 +54,8 @@
     width: 100%;
     aspect-ratio: 16/9;
     margin-bottom: 2.5rem;
-    box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.25),
-        0 15px 35px 0 rgba(0, 0, 0, 0.25);
+    box-shadow: 0 5px 15px 0 var(--banner-shadow),
+    0 15px 35px 0 var(--banner-shadow);
     border-radius: 4px;
     margin-top: 2.5rem;
 }
@@ -107,4 +107,72 @@
 
 .itinerary_line {
     padding: 0.5rem;
+}
+
+.trip__hotel--link { 
+    display: flex;
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+    justify-content: left;
+    margin: 1rem 0;
+    color: inherit;
+    align-items: center;
+}
+
+.trip__hotel--link:hover {
+    text-decoration: underline;
+}
+
+.pencil.website__icon {
+    width: 1.3rem;
+    height: 1.3rem;
+}
+
+.trip__meta {
+    display: flex;
+    justify-content: space-between;
+}
+
+.hotel__description {
+    padding: 1rem;
+    font-style: italic;
+}
+
+.hotel__description:last-of-type {
+    margin-bottom: 1.5rem;
+}
+
+.sim__meta {
+    margin-left: 6rem;   
+    margin-right: 6rem; 
+}
+
+.trip__hotel--value {
+    display: flex;
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
+    justify-content: center;
+}
+
+.trip__hotel--label {
+    display: flex;
+    justify-content: center;
+}
+
+.total__cost {
+    margin-top: 1.8rem;
+}
+
+.per__month {
+    font-style: italic;
+}
+
+.trip__total--expenses {
+    border-radius: 2rem;
+    max-width: 14rem;
+    margin: 0 auto;
+    
+    /* Set the border thickness */
+    border: 2px solid var(--accent-color); /* Replace 'red' with your desired border color */
+    margin-bottom: 2rem;
 }

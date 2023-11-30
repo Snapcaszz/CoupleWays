@@ -1,9 +1,10 @@
-{% from "macros/svgs.html" import star, pencil, edit_pic, trash_can, trash_can_dark, edit_pic_dark %}
+{% from "macros/svgs.html" import star, pencil, edit_pic, trash_can, trash_can_dark, edit_pic_dark, website, dark_website %}
 
 {% extends 'layout.html' %}
 
 {% block head_content %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/trip.css') }}" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
 {% endblock %}
 
 {% block main_content %}
@@ -27,10 +28,10 @@
                 <a class="trip__edit" href="{{ url_for('pages.edit_trip', _id=trip._id) }}">Edit trip {{ pencil("pencil") }}</a>
             </div>
             <div class="trip__info--dates--edit">
-                <a class="trip__edit" href="#">Edit image {{ edit_pic("pencil") if session.get("theme")=="light" else edit_pic_dark("pencil") }}</a>
+                <a class="trip__edit" href="#">Edit image {{ edit_pic_dark("pencil") if session.get("theme")=="dark" else edit_pic("pencil") }}</a>
             </div>
             <div class="trip__info--dates--edit">
-                <a class="trip__edit trip__edit--delete" href="#">Delete Trip{{ trash_can("pencil") if session.get("theme")=="light" else trash_can_dark("pencil") }}</a>
+                <a class="trip__edit trip__edit--delete" href="{{ url_for('pages.delete_trip', _id=trip._id)}}">Delete Trip{{ trash_can_dark("pencil") if session.get("theme")=="dark" else trash_can("pencil") }}</a>
             </div>
         </div>
         <div class="header__row">
@@ -71,12 +72,108 @@
         {% endif %}
         <div class="trip__budget">
             <h2 class="trip__budget--label">Current budget</h2>
-            <span class="trip__budget--value">${{ trip.current_budget }}</span>
+            <span class="trip__budget--value">$ {{ trip.current_budget }}</span>
         </div>
     </div>
     <div class="trips__link--container">
         <a class="trips__link--button" href="{{ url_for('pages.simulate_trip', _id=trip._id) }}">Simulate budget</a>
     </div>
-    {% block simulate_content %}    {% endblock %}
+    {% if trip.hotel and trip.cost_of_stay and trip.transportation_cost and trip.amount_to_spend %}
+        <div class="trip__meta sim__meta">
+            <div class="trip__hotel">
+                <h2 class="trip__hotel--labelname">Hotel</h2>
+                <a class="trip__hotel--link" href="{{ trip.hotel_link }}">{{ trip.hotel }}{{ dark_website("pencil website__icon") if session.get("theme")=="dark" else website("pencil website__icon") }}</a>
+            </div>
+            <div class="trip_cost--of--stay">
+                <h3 class="trip__hotel--label">Daily rate:</h3>
+                <p class="trip__hotel--value">$ {{ trip.cost_of_stay }}</p>
+            </div>
+        </div>
+        {% if trip.hotel_description %}
+        <div class="trip__meta sim__meta">
+            {% for line in trip.hotel_description %}
+                <p class="itinerary_line hotel__description">{{ line }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <div class="trip__meta sim__meta">
+            <div class="trip_transportation--cost">
+                <h3 class="trip__hotel--label">Plane round trip cost:</h3>
+                <p class="trip__hotel--value">$ {{ trip.transportation_cost }}</p>
+            </div>
+            <div class="trip_transportation--cost">
+                <h3 class="trip__hotel--label">Amount to spend on the trip:</h3>
+                <p class="trip__hotel--value">$ {{ trip.amount_to_spend }}</p>
+            </div>
+        </div>
+        <div class="trip__total--expenses">
+            <h3 class="trip__hotel--label total__cost">Total cost of the Trip</h3>
+            <p class="trip__hotel--value total__cost--value">$ {{ trip.total_expenses}}</p>
+        </div>
+        {% if trip.current_budget<trip.total_expenses %}
+            <div class="trip__meta sim__meta">
+                <div class="trip_amount_to_save">
+                    <h3 class="trip__hotel--label">Amount to save - Total:</h3>
+                    <h3 class="trip__hotel--label per__month">(Per month)</h3>
+                    <p class="trip__hotel--value">$ {{ trip.amount_to_save }}</p>
+                </div>
+                <div class="trip_amount_to_save--per--people">
+                    <h3 class="trip__hotel--label">Amount to save - Each traveler:</h3>
+                    <h3 class="trip__hotel--label per__month">(Per month)</h3>
+                    <p class="trip__hotel--value">$ {{ trip.amount_to_save_per_people }}</p>
+                </div>
+            </div>
+        {% else %}
+            <h3 class="trip__hotel--label">You can go on this trip! Your budget cover all the costs!</h3>
+        {% endif %}
+    {% endif %}
+    {% if trip.date_to_start_saving and months_to_save>=1 and trip.current_budget<trip.total_expenses %}
+        <canvas class="budget__graph" id="lineChart" width="900" height="400"></canvas>
+        <script>
+            var ctx = document.getElementById("lineChart").getContext("2d");
+            var accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent-color');
+            var accentColorTwo = getComputedStyle(document.documentElement).getPropertyValue('--accent-color-2');
+            var textDarkColor = getComputedStyle(document.documentElement).getPropertyValue('--text-dark');
+            
+            var lineChart = new Chart(ctx, {
+                type: "line",
+                data: {
+                    labels: {{ labels | safe }},
+                    datasets: [{
+                        label: "Amount to save by month - total ",
+                        data: {{ values | safe }},
+                        fill: false, 
+                        borderColor: accentColor,
+                        lineTension: 0.1
+                    },
+                    {
+                        label: "Amount to save by month - per people ",
+                        data: {{ values_per_people | safe }},
+                        fill: false, 
+                        borderColor: accentColorTwo,
+                        lineTension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: false,
+                    scales: {
+                        grid: {
+                            color: textDarkColor
+                        },
+                        x: [{
+                            ticks: {
+                                fontColor: textDarkColor
+                            }
+                        }],
+                        y: [{
+                            ticks: {
+                                fontColor: textDarkColor
+                            }
+                        }]
+                    }
+                }
+            });
+        </script>
+    {% endif %}
 </div>
 {% endblock %}

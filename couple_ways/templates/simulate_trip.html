@@ -5,7 +5,7 @@
 {% block main_content %}
 <div class="form__block">
     <h1 class="form__title">Hotel Budget Simulation for the trip to {{ trip.destination }}! </h1>
-    <form name="add_movie" method="post" novalidate class="form">
+    <form name="simulate_trip" method="post" novalidate class="form">
         <div class="form__container">
             {{ form.hidden_tag() }}
             {{ form.csrt_token }}
