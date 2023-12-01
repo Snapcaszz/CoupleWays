@@ -1,24 +1,4 @@
 :root {
-  --text-dark: #000;
-  --text-light: #fbf2f2;
-  --text-muted: #595959;
-  --banner-shadow: rgba(0, 0, 0, 0.25);
-  --delete-hover: rgb(255, 0, 0);
-
-  --background-color: #fff;
-  --accent-color: #8CBAE8;
-  --button-accent: #acd4fc;
-  --hover-color: #8CBAE8;
-  --accent-color-2: #18538d;
-  --accent-color-3: #8CBAE8;
-  --tag-color: #e5e5e5;
-  --fill-color: #ffd02a;
-
-  --border: 3px solid #000;
-  --calendar-icon: invert(0);
-}
-
-:root.dark-mode {
   --text-dark: #fbf2f2;
   --text-light: #000;
   --text-muted: #595959;
@@ -36,6 +16,26 @@
   --accent-color-3: #8CBAE8;
 
   --border: 3px solid #fff;
+}
+
+:root.dark-mode {
+  --text-dark: #000;
+  --text-light: #fbf2f2;
+  --text-muted: #595959;
+  --banner-shadow: rgba(0, 0, 0, 0.25);
+  --delete-hover: rgb(255, 0, 0);
+
+  --background-color: #fff;
+  --accent-color: #8CBAE8;
+  --button-accent: #acd4fc;
+  --hover-color: #8CBAE8;
+  --accent-color-2: #18538d;
+  --accent-color-3: #8CBAE8;
+  --tag-color: #e5e5e5;
+  --fill-color: #ffd02a;
+
+  --border: 3px solid #000;
+  --calendar-icon: invert(0);
 }
 
 .button {

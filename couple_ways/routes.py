@@ -84,6 +84,7 @@ def add_trip():
 @pages.route("/my_trips")
 @login_required
 def my_trips():
+    print(session.get("email"))
     user_data = current_app.db.user.find_one({"email": session["email"]})
     user = User(**user_data)
     
