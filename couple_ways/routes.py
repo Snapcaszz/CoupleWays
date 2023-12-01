@@ -1,9 +1,10 @@
-import uuid
+import uuid, os
 from datetime import datetime, date, time
 from dateutil.relativedelta import relativedelta
-from couple_ways.utils.functions import months_between_dates
+from couple_ways.utils.functions import months_between_dates, photos
 from math import floor
 from flask import jsonify
+
 
 from flask import (
     Blueprint,
@@ -14,14 +15,15 @@ from flask import (
     redirect,
     current_app,
     flash,
+    send_from_directory,
 )
 from couple_ways.models import Trip
-from couple_ways.forms import NewTripForm, EditTripForm, HotelSimulationForm, TripDeletionForm
+from couple_ways.forms import NewTripForm, EditTripForm, HotelSimulationForm, TripDeletionForm, ImageUpload
 from dataclasses import asdict
 
 
 pages = Blueprint(
-    "pages", __name__, template_folder="templates", static_folder="static"
+    "pages", __name__, template_folder="templates", static_folder="static", 
 )
 
 
@@ -113,6 +115,10 @@ def rate_this_trip(_id):
 def trip(_id: str):
     trip = Trip(**current_app.db.trips.find_one({"_id": _id}))
     trip.calculate_fields
+    if trip.image:
+        image_url = 'uploads/'+trip.image
+    else:
+        image_url = None
 
     # creating the labels and values to plot in the trip simulation, I know its confusing and not readable
     # for the labels its ploting each month after the date_to_start_saving until the start_date of the trip, hence the sum of the relative delta of i months
@@ -162,6 +168,7 @@ def trip(_id: str):
         "trip.html",
         trip=trip,
         title=f"Couple Ways - {trip.destination}",
+        image_url=image_url,
     )
 
 
@@ -185,7 +192,7 @@ def edit_trip(_id):
         current_app.db.trips.update_one({"_id": trip._id}, {"$set": asdict(trip)})
         return redirect(url_for(".trip", _id=trip._id))
 
-    return render_template("edit_trip.html", title="Couple Ways - Edit Trip", form=form)
+    return render_template("edit_trip.html", title="Couple Ways - Edit Trip", form=form, image_url=image_url)
 
 
 @pages.route("/simulate_trip/<string:_id>", methods=["GET", "POST"])
@@ -222,9 +229,17 @@ def delete_trip(_id):
     
     if form.validate_on_submit():
         try:
+            image_to_delete = trip.image
             result = current_app.db.trips.delete_one({"_id": _id})
             if result.deleted_count == 1:
                 flash("Trip deleted successfully", "success")
+                # Delete the previous image if it exists
+                if image_to_delete:
+                    previous_image_path = os.path.join(
+                        current_app.config["UPLOADED_PHOTOS_DEST"], image_to_delete
+                    )
+                    if os.path.exists(previous_image_path):
+                        os.remove(previous_image_path)
             else:
                 flash("Trip not found", "danger")
         except Exception as e:
@@ -233,3 +248,25 @@ def delete_trip(_id):
         return redirect(url_for(".my_trips"))
 
     return render_template("delete_trip_confirmation.html", form=form, trip=trip, title="Couple Ways - Delete Trip")
+
+@pages.route("/upload/image/<string:_id>", methods=["GET", "POST"])
+def upload_image(_id):
+    trip = Trip(**current_app.db.trips.find_one({"_id": _id}))
+    form = ImageUpload()
+
+    if form.validate_on_submit():
+        # Delete the previous image if it exists
+        if trip.image:
+            previous_image_path = os.path.join(
+                current_app.config["UPLOADED_PHOTOS_DEST"], trip.image
+            )
+            if os.path.exists(previous_image_path):
+                os.remove(previous_image_path)
+
+        # Save the new image
+        filename = photos.save(form.photo.data)
+        trip.image = filename
+        current_app.db.trips.update_one({"_id": trip._id}, {"$set": asdict(trip)})
+        return redirect(url_for('.trip', _id=trip._id))
+
+    return render_template("upload_image.html", title="Couple Ways - upload trip image", form=form, trip=trip)

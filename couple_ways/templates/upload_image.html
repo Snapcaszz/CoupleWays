@@ -1,0 +1,22 @@
+{% from 'macros/fields.html' import render_area_field, render_text_field, render_date_field %}
+
+{% extends 'layout.html' %}
+
+{% block main_content %}
+<div class="form__block">
+    <h1 class="form__title">Upload a image for the trip to {{ trip.destination }}</h1>
+    <form name="add_trip" method="post" enctype="multipart/form-data" novalidate class="form">
+        <div class="form__container">
+            {{ form.hidden_tag() }}
+            {{ form.csrt_token }}
+            {% for error in form.photo.errors %}
+                <span class="form__error">*{{ error }}</span>
+            {% endfor %}
+            {{ form.photo(class="form__field") }}
+            <div class="form__button--container">
+                {{ form.submit(class_="button form--button") }}
+            </div>  
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,5 +1,8 @@
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
+from flask_uploads import UploadSet, IMAGES
+
+photos = UploadSet("photos", IMAGES)
 
 
 def months_between_dates(date1: datetime, date2: datetime) -> float:

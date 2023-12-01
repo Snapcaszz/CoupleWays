@@ -32,6 +32,7 @@ class Trip:
     total_expenses: float = 0
     amount_to_save: float = 0
     amount_to_save_per_people: float = 0
+    image: str = None
 
     def calculate_fields(self):
         if self.cost_of_stay and self.transportation_cost and self.amount_to_spend:

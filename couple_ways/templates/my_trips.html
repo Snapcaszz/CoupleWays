@@ -9,7 +9,7 @@
     {% for trip in trips_data %}
             <article class="trip--card">
                 <div class="trip--card__imgcont">
-                    <a class="trip__link--container" href="{{ url_for('pages.trip', _id=trip._id) }}"><img class="trips--card__image" src="{{ url_for('static', filename='img/Salvador.jpg') }}" alt="Trip image"></a>
+                    <a class="trip__link--container" href="{{ url_for('pages.trip', _id=trip._id) }}"><img class="trips--card__image" src="{{ url_for('static', filename='/uploads/'+trip.image) if trip.image else url_for('static', filename='img/Salvador.jpg') }}" alt="Trip image"></a>
                 </div>
                     <header class="trip--card__meta">
                         <div class="trip--card__namecont">

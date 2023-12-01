@@ -1,11 +1,12 @@
 import datetime
 
-from flask_wtf import FlaskForm
-from wtforms import FloatField, StringField, SubmitField, TextAreaField, DateField, FileField
-from wtforms.validators import InputRequired, NumberRange, DataRequired, ValidationError, FileAllowed, FileRequired
-from couple_ways.utils.functions import youtube_url_to_embed
-from couple_ways import photos
+from flask import current_app
 
+from flask_wtf import FlaskForm
+from wtforms import FloatField, StringField, SubmitField, TextAreaField, DateField
+from wtforms.validators import InputRequired, NumberRange, DataRequired, ValidationError
+from flask_wtf.file import FileAllowed, FileRequired, FileField
+from couple_ways.utils.functions import youtube_url_to_embed, photos
 
 class StringListField(TextAreaField):
     def _value(self):
