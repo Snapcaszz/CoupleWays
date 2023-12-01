@@ -23,9 +23,3 @@ def youtube_url_to_embed(url):
     except:
         return None
     
-    
-date1 = datetime(2022, 1, 1)
-date2 = datetime(2022, 1, 2)
-
-result = months_between_dates(date1, date2)
-print(result)

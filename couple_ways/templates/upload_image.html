@@ -12,10 +12,13 @@
             {% for error in form.photo.errors %}
                 <span class="form__error">*{{ error }}</span>
             {% endfor %}
-            {{ form.photo(class="form__field") }}
-            <div class="form__button--container">
-                {{ form.submit(class_="button form--button") }}
-            </div>  
+            <div class="form__label">{{ form.photo.label(class="form__label") }}</div>
+            <div class="upload__image--container">
+                <div class="col-auto">
+                    {{ form.photo(class="form__field file__field") }}
+                </div>
+                <div class="col-auto">{{ form.submit(class_="button form--button upload--button") }}</div>
+            </div>
         </div>
     </form>
 </div>

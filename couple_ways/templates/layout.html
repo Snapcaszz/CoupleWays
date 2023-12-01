@@ -16,7 +16,7 @@
     </head>
     
     <body>
-        {{ nav_bar("matheus.scep@gmail.com", session.get("theme")) }}
+        {{ nav_bar(session.get("email"), session.get("theme")) }}
         <main class="main">
             {% block main_content %} {% endblock %}
         </main>

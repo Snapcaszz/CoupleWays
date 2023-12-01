@@ -8,13 +8,13 @@
         </a>
         <nav class="nav">
             {% if not email %}
-                <a class="nav__link {{ 'nav__link--active' if request.path == '#' }}" href="#">Log in</a>
-                <a class="nav__link {{ 'nav__link--active' if request.path == '#' }}" href="#">Register</a>               
+                <a class="nav__link {{ 'nav__link--active' if request.path == url_for('pages.login') }}" href="{{ url_for('pages.login') }}">Log in</a>
+                <a class="nav__link {{ 'nav__link--active' if request.path == url_for('pages.register') }}" href="{{ url_for('pages.register') }}">Register</a>               
             {% else %}
                 <a class="nav__link {{ 'nav__link--active' if request.path == url_for('pages.my_trips') }}" href="{{ url_for('pages.my_trips') }}">My Trips</a>
                 <!--<a class="nav__link {{ 'nav__link--active' if request.path == '#' }}" href="#">Map Discovery</a>-->  
                 <!--<a class="nav__link {{ 'nav__link--active' if request.path == '#' }}" href="#">AI Travel Guide</a>-->
-                <a class="nav__link" href="#">Log out</a>   
+                <a class="nav__link" href="{{ url_for('pages.logout') }}">Log out</a>   
             {% endif %}
             <a class="nav__link" href="{{ url_for('pages.toggle_theme', current_page= request.path) }}">
                 <span class="theme--selection">

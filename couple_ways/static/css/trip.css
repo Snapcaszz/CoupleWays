@@ -134,7 +134,7 @@
 }
 
 .hotel__description {
-    padding: 1rem;
+    padding: 0.5rem;
     font-style: italic;
 }
 
@@ -142,7 +142,9 @@
     margin-bottom: 1.5rem;
 }
 
-.sim__meta {
+.sim__meta--description {
+    display: flex;
+    flex-direction: column;
     margin-left: 6rem;   
     margin-right: 6rem; 
 }

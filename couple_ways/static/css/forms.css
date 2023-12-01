@@ -1,0 +1,76 @@
+.form__title--credentials {
+    margin-bottom: 0;
+}
+
+.form--credentials {
+    margin: 0 auto;
+    max-width: 30rem;
+    font-size: 1.2rem;
+
+    background: var(--background-color);
+}
+
+.form__container--credentials {
+    padding: 2.5rem 1.5rem 1.5rem 1.5rem;
+}
+
+@media screen and (min-width: 24.75em) {
+    .form__container--credentials {
+        padding-left: 2rem;
+    }
+}
+
+@media screen and (min-width: 30em) {
+    .form__container--credentials{
+        padding-left: 2.5rem;
+    }
+}
+
+.form__group--credentials {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.5rem;
+}
+
+.form__field--credentials {
+    outline: none;
+    border: none;
+
+    border-bottom: 3px solid var(--text-dark);
+    font-size: inherit;
+    font-family: inherit;
+
+    padding: 0.75rem 0.5rem;
+    background: var(--background-color);
+    font-weight: bold;
+    font-style: italic;
+    color: var(--text-dark);
+}
+
+.button--form {
+    margin: 2rem auto 0 auto;
+    padding: 0.75rem 3rem;
+    border: none;
+}
+
+.form__link {
+    margin-left: 0.5rem;
+    text-decoration: none;
+    color: var(--accent-color-2);
+}
+
+.form__link:hover {
+    text-decoration: underline;
+}
+
+.form__small--credentials {
+    display: flex;
+    margin-top: 2rem;
+}
+
+.form__flash--danger {
+    display: flex;
+    margin: 0 auto;
+    margin-top: 1rem;
+    font-size: 1rem;
+}

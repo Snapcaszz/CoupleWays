@@ -1,4 +1,6 @@
 import uuid, os
+import functools
+
 from datetime import datetime, date, time
 from dateutil.relativedelta import relativedelta
 from couple_ways.utils.functions import months_between_dates, photos
@@ -17,15 +19,24 @@ from flask import (
     flash,
     send_from_directory,
 )
-from couple_ways.models import Trip
-from couple_ways.forms import NewTripForm, EditTripForm, HotelSimulationForm, TripDeletionForm, ImageUpload
+from couple_ways.models import Trip, User
+from couple_ways.forms import NewTripForm, EditTripForm, HotelSimulationForm, TripDeletionForm, ImageUpload, RegisterForm, LoginForm
 from dataclasses import asdict
-
+from passlib.hash import pbkdf2_sha256
 
 pages = Blueprint(
     "pages", __name__, template_folder="templates", static_folder="static", 
 )
 
+def login_required(route):
+    @functools.wraps(route)
+    def route_wrapper(*args, **kwargs):
+        if session.get("email") is None:
+            return redirect(url_for(".login"))
+
+        return route(*args, **kwargs)
+
+    return route_wrapper
 
 @pages.route("/")
 def landing_page():
@@ -47,6 +58,7 @@ def toggle_theme():
 
 
 @pages.route("/add_trip", methods=["GET", "POST"])
+@login_required
 def add_trip():
     form = NewTripForm()
 
@@ -61,14 +73,21 @@ def add_trip():
         )
 
         current_app.db.trips.insert_one(asdict(trip))
+        current_app.db.user.update_one(
+            {"_id": session["user_id"]}, {"$push": {"trips": trip._id}}
+        )
         return redirect(url_for(".my_trips"))
 
     return render_template("add_trip.html", title="Couple Ways - Add Trip", form=form)
 
 
 @pages.route("/my_trips")
+@login_required
 def my_trips():
-    trip_data = current_app.db.trips.find({})
+    user_data = current_app.db.user.find_one({"email": session["email"]})
+    user = User(**user_data)
+    
+    trip_data = current_app.db.trips.find({"_id": {"$in": user.trips}})
     trips = [Trip(**trip) for trip in trip_data]
     for trip in trips:
         trip.start_date = trip.start_date.date().strftime("%d %b %Y")
@@ -80,6 +99,7 @@ def my_trips():
 
 
 @pages.get("/trip/<string:_id>/rate")
+@login_required
 def rate_trip(_id):
     rating = int(request.args.get("rating"))
     try:
@@ -96,6 +116,7 @@ def rate_trip(_id):
 
 
 @pages.get("/trip/<string:_id>/rate/this")
+@login_required
 def rate_this_trip(_id):
     rating = int(request.args.get("rating"))
     try:
@@ -173,6 +194,7 @@ def trip(_id: str):
 
 
 @pages.route("/edit_trip/<string:_id>", methods=["GET", "POST"])
+@login_required
 def edit_trip(_id):
     trip = Trip(**current_app.db.trips.find_one({"_id": _id}))
     form = EditTripForm(obj=trip)
@@ -192,10 +214,11 @@ def edit_trip(_id):
         current_app.db.trips.update_one({"_id": trip._id}, {"$set": asdict(trip)})
         return redirect(url_for(".trip", _id=trip._id))
 
-    return render_template("edit_trip.html", title="Couple Ways - Edit Trip", form=form, image_url=image_url)
+    return render_template("edit_trip.html", title="Couple Ways - Edit Trip", form=form)
 
 
 @pages.route("/simulate_trip/<string:_id>", methods=["GET", "POST"])
+@login_required
 def simulate_trip(_id):
     trip = Trip(**current_app.db.trips.find_one({"_id": _id}))
     form = HotelSimulationForm()
@@ -223,6 +246,7 @@ def simulate_trip(_id):
 
 
 @pages.route("/delete/trip/<string:_id>", methods=["GET", "POST"])
+@login_required
 def delete_trip(_id):
     trip = Trip(**current_app.db.trips.find_one({"_id": _id}))
     form = TripDeletionForm()
@@ -250,6 +274,7 @@ def delete_trip(_id):
     return render_template("delete_trip_confirmation.html", form=form, trip=trip, title="Couple Ways - Delete Trip")
 
 @pages.route("/upload/image/<string:_id>", methods=["GET", "POST"])
+@login_required
 def upload_image(_id):
     trip = Trip(**current_app.db.trips.find_one({"_id": _id}))
     form = ImageUpload()
@@ -270,3 +295,58 @@ def upload_image(_id):
         return redirect(url_for('.trip', _id=trip._id))
 
     return render_template("upload_image.html", title="Couple Ways - upload trip image", form=form, trip=trip)
+
+@pages.route("/register", methods=["GET", "POST"])
+def register():
+    if session.get("email"):
+        return redirect(url_for(".my_trips"))
+    
+    form=RegisterForm()
+    
+    if form.validate_on_submit():
+        user = User(
+            _id=uuid.uuid4().hex,
+            email=form.email.data,
+            password=pbkdf2_sha256.hash(form.password.data),
+        )
+        
+        current_app.db.user.insert_one(asdict(user))
+        
+        flash("User registered successfully", "success")
+        
+        return redirect(url_for(".login"))
+    
+    return render_template("register.html", form=form, title="Couple Ways - Register")
+
+@pages.route("/login", methods=["GET", "POST"])
+def login():
+    if session.get("email"):
+        return redirect(url_for(".my_trips"))
+    
+    form=LoginForm()
+    
+    if form.validate_on_submit():
+        user_data = current_app.db.user.find_one({"email": form.email.data})
+        if not user_data: 
+            flash("Login credentials not correct", category="danger")
+            return redirect(url_for(".login"))
+        
+        user = User(**user_data)
+        
+        if user and pbkdf2_sha256.verify(form.password.data, user.password):
+            session["user_id"] = user._id
+            session["email"] = user.email
+            
+            return redirect(url_for(".my_trips"))
+        
+        flash("Login credentials not correct", category="danger")
+    
+    return render_template("login.html", title="Couple Ways - Login", form=form)
+
+@pages.route("/logout")
+def logout():
+    current_theme = session.get("theme")
+    session.clear()
+    session["theme"] = current_theme
+
+    return redirect(url_for(".login"))

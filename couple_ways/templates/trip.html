@@ -90,7 +90,7 @@
             </div>
         </div>
         {% if trip.hotel_description %}
-        <div class="trip__meta sim__meta">
+        <div class="trip__meta sim__meta--description">
             {% for line in trip.hotel_description %}
                 <p class="itinerary_line hotel__description">{{ line }}</p>
             {% endfor %}

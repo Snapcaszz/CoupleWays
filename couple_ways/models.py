@@ -1,5 +1,5 @@
 from math import floor
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass, field
 from datetime import datetime
 from couple_ways.utils.functions import (
     months_between_dates,
@@ -7,6 +7,12 @@ from couple_ways.utils.functions import (
     days_between_dates,
 )
 
+@dataclass
+class User:
+    _id: str
+    email: str
+    password: str
+    trips: list[str] = field(default_factory=list)
 
 @dataclass
 class Trip:

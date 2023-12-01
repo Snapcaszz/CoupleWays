@@ -1,0 +1,56 @@
+{% from "macros/fields.html" import render_text_field %}
+
+{% extends "layout.html" %} 
+
+{%- block head_content %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}" />
+{% endblock %} 
+
+{% block main_content %}
+<div class="form__block">
+    <h1 class="form__title form__title--credentials">Register!</h1>
+    <form name="register" method="post" novalidate class="form--credentials">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {%- for category, message in messages %}
+                <span class="form__flash form__flash--{{category}}"> {{ message }}</span>
+            {% endfor %}
+        {% endwith %}
+        
+        <div class="form__container--credentials">
+            {{ form.hidden_tag() }}
+
+            <div class="form__group--credentials">
+                {{ form.email(class_="form__field--credentials") }}
+            
+                {%- for error in form.email.errors %}
+                    <span class="form__error">*{{ error }}</span>
+                {% endfor %}
+            </div>
+
+            <div class="form__group--credentials">
+                {{ form.password(class_="form__field--credentials") }}
+            
+                {%- for error in form.password.errors %}
+                    <span class="form__error">*{{ error }}</span>
+                {% endfor %}
+            </div>
+
+            <div class="form__group--credentials">
+                {{ form.confirm_password(class_="form__field--credentials") }}
+            
+                {%- for error in form.confirm_password.errors %}
+                    <span class="form__error">*{{ error }}</span>
+                {% endfor %}
+            </div>
+    
+            <span class="form__small--credentials">
+                Already have an account? <a href="{{ url_for('pages.login') }}" class="form__link">Log in here</a>.
+            </span>
+    
+            <div>
+                {{ form.submit(class_="button button--form") }}
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

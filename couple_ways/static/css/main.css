@@ -10,6 +10,7 @@
   --button-accent: #acd4fc;
   --hover-color: #8CBAE8;
   --accent-color-2: #18538d;
+  --accent-color-3: #8CBAE8;
   --tag-color: #e5e5e5;
   --fill-color: #ffd02a;
 
@@ -32,6 +33,7 @@
   --tag-colour: var(--accent-colour-2);
   --calendar-icon: invert(1);
   --fill-color: #ffc800;
+  --accent-color-3: #8CBAE8;
 
   --border: 3px solid #fff;
 }
@@ -177,7 +179,7 @@ body {
 
 .nav__link--active {
   font-weight: bold;
-  color: var(--accent-color);
+  color: var(--accent-color-3);
   transition: all 0.2s ease-in-out;
 }
 
@@ -374,7 +376,14 @@ body {
 }
 
 .form__flash--success {
+  display: flex;
+  margin: 0 auto;
+  margin-top: 1rem;
+  font-size: 1rem;
   background: var(--accent-color-2);
+  color: var(--text-light);
+  width: fit-content;
+  border-radius: 1rem;
 }
 
 .form__button--container {
@@ -586,7 +595,28 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .flashes {
-  color: var(--delete-hover);
+  color: var(--accent-color-2);
   display: flex;
   justify-content: center;
+}
+
+.upload__image--container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.upload--button {
+  display: flex;
+  margin-top: 1rem;
+  justify-content: center;
+  padding: 0.8rem;
+  width: 7rem;
+}
+
+/* Style your own label for the file input text */
+.upload__text {
+    margin-left: 10px; /* Add some spacing between the button and text */
+    font-size: 14px; /* Customize the font size */
+    color: #555; /* Customize the text color */
 }

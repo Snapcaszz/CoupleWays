@@ -15,6 +15,7 @@ def create_app():
         "SECRET_KEY", "5B2A8DB6FB704A5A90E09E2DF2EE056F45E741CCD005644389D276C29A94F69D"
     )
     app.config["UPLOADED_PHOTOS_DEST"] = "./couple_ways/static/uploads"
+    
     configure_uploads(app, photos)
 
     app.db = MongoClient(app.config["MONGODB_URI"]).get_default_database()
