@@ -4,7 +4,7 @@
 <div class="header">
     <div class="nav--bar">
         <a class="nav--home" href="{{ url_for('pages.landing_page') }}">
-            <img class="app--logo" src="{{ url_for('static', filename='img/dark_logo.svg') if session.get('theme') == 'light' else url_for('static', filename='img/light_logo.svg') }}" alt="Couple Ways - logo"><span class="app--name">Couple Ways</span>
+            <img class="app--logo" src="{{ url_for('static', filename='img/light_logo.svg') if session.get('theme') == 'light' else url_for('static', filename='img/dark_logo.svg') }}" alt="Couple Ways - logo"><span class="app--name">Couple Ways</span>
         </a>
         <nav class="nav">
             {% if not email %}
@@ -19,9 +19,9 @@
             <a class="nav__link" href="{{ url_for('pages.toggle_theme', current_page= request.path) }}">
                 <span class="theme--selection">
                     {% if theme == "dark" %}
-                        {{ moon("theme__icon") }}
-                    {% else %}
                         {{ sun("theme__icon") }}
+                    {% else %}
+                        {{ moon("theme__icon") }}
                     {% endif %}
                 </span>
             </a>
