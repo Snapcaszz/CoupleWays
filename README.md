@@ -59,7 +59,7 @@ Allow users to add trips seamlessly, including form creation, data validation, s
 
 ### Trip Budget Simulation
 
-Budget simulation for a specific hotel, including the savings plan for the month to come between the date of the simulation and the trip start date. 
+Budget simulation for a specific hotel, including the daily fees, hotel link, advantages and the savings plan for the months to come between the date of the simulation and the trip start date. 
 
 ### User Authentication
 
