@@ -16,7 +16,7 @@ Welcome to Couple Ways, your go-to app for seamless trip planning and organizati
 
 ### Cloning the Repository
 
-To get started, you can either clone the official Couple Ways repository:
+To get started, you can either access the current version in production or clone the official Couple Ways repository:
 
 ```bash
 git clone https://github.com/Snapcaszz/CoupleWays
